@@ -1,0 +1,38 @@
+# terraform.tfvars.example
+
+# Guía de ejemplo y réplica de terraform.tfvars.
+# Copio este archivo a terraform.tfvars y luego edito los valores para personalizar mi despliegue.
+
+# aws_region
+# Aquí defino la región de AWS donde quiero crear los recursos.
+# Ejemplo: "us-east-1", "eu-west-1", "sa-east-1"
+aws_region = "us-east-1"
+
+# instance_type
+# Aquí elijo el tipo de instancia EC2 que necesitan mis servidores.
+# Para pruebas uso "t2.micro"; para producción puedo usar "t3.medium" u otro.
+instance_type = "t2.micro"
+
+# my_ip
+# Aquí especifico la IP desde la que permitiré SSH a las instancias.
+# Opción insegura para pruebas rápidas: "0.0.0.0/0" (permite todas las IPs).
+# Opción recomendada: "X.X.X.X/32" reemplazando X.X.X.X por mi IP pública.
+# Ejemplo recomendable: my_ip = "203.0.113.4/32"
+my_ip = "0.0.0.0/0"
+
+# docker_images
+# Lista de imágenes Docker que quiero ejecutar; cada entrada crea 1 instancia.
+# Si quiero 3 instancias, dejo 3 imágenes; para 1 instancia dejo 1 imagen.
+# Ejemplo: docker_images = ["errm/cheese:wensleydale"]
+docker_images = [
+  "errm/cheese:wensleydale",
+  "errm/cheese:cheddar",
+  "errm/cheese:stilton"
+]
+
+# Pasos para personalizar:
+# 1) Copio este archivo a terraform.tfvars
+# 2) Reemplazo my_ip por mi IP pública con /32 si quiero acceso SSH restringido
+# 3) Ajusto aws_region e instance_type según necesidades
+# 4) Modifico docker_images para añadir/quitar instancias y contenedores
+# 5) Ejecuto: terraform init && terraform apply
