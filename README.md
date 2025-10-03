@@ -94,4 +94,6 @@ __5. Acceder a la aplicación__
 Una vez finalizado el despliegue, copia el DNS del Load Balancer desde el output:
 
 ```terraform output resumen_final```
+
+
 __Pega la URL en tu navegador y recarga la página varias veces para ver distintos tipos de queso.__
