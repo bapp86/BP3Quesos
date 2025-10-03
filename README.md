@@ -32,6 +32,20 @@ Demostrar el uso de infraestructura distribuida en AWS para servir contenido din
 - `outputs.tf`: Expone la URL pública del ALB y las IPs de las instancias EC2.
 - `README.md`: Este documento.
 
+## 🖥️ Entorno de desarrollo
+
+Este proyecto fue desarrollado y probado localmente en:
+
+- **Sistema operativo**: Ubuntu 22.04 LTS (máquina virtual en VMware Workstation Pro)
+- **Herramientas**:
+  - Terraform CLI
+  - AWS CLI
+  - Visual Studio Code
+  - Git
+  - Docker Hub
+Este entorno permite ejecutar los comandos de Terraform, editar archivos `.tf` y realizar pruebas previas al despliegue en AWS.
+
+
 ## Variables personalizables
 
 El archivo `terraform.tfvars` permite ajustar la infraestructura sin modificar los archivos principales. Aquí se definen:
