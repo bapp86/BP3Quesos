@@ -32,7 +32,7 @@ Demostrar el uso de infraestructura distribuida en AWS para servir contenido din
 - `outputs.tf`: Expone la URL pública del ALB y las IPs de las instancias EC2.
 - `README.md`: Este documento.
 
-## 🖥️ Entorno de desarrollo
+## Entorno de desarrollo
 
 Este proyecto fue desarrollado y probado localmente en:
 
@@ -42,7 +42,7 @@ Este proyecto fue desarrollado y probado localmente en:
   - AWS CLI
   - Visual Studio Code
   - Git
-  - Docker Hub
+  - Docker
 Este entorno permite ejecutar los comandos de Terraform, editar archivos `.tf` y realizar pruebas previas al despliegue en AWS.
 
 
