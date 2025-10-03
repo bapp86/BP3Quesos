@@ -79,13 +79,13 @@ cp terraform.tfvars.example terraform.tfvars
 ```
 __2.5 Ajusta los valores según el entorno:__
 
-____- aws_region__: Región de AWS (ej. "us-east-1")
+  - aws_region__: Región de AWS (ej. "us-east-1")
 
-____- instance_type__: Tipo de instancia EC2 (ej. "t2.micro")
+  - instance_type__: Tipo de instancia EC2 (ej. "t2.micro")
 
-____- my_ip__: Tu IP pública con /32 para acceso SSH seguro
+  - my_ip__: Tu IP pública con /32 para acceso SSH seguro
 
-____- docker_images__: Lista de imágenes Docker (una por instancia)
+  - docker_images__: Lista de imágenes Docker (una por instancia)
 
 
 __3.  Inicializar Terraform.__
