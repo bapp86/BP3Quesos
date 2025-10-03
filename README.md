@@ -1,5 +1,6 @@
 # BP3Quesos
 Evaluacion 1 Infraestructura como Código
+
 **App para Fábrica de Quesos**
 
 Este proyecto despliega una aplicación web distribuida en tres instancias EC2 de AWS, cada una mostrando un tipo de queso diferente. Al acceder a la URL pública del balanceador de carga y refrescar la página, el usuario recibe una respuesta desde una instancia distinta, lo que permite visualizar diferentes quesos en cada visita.
