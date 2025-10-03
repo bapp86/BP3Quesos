@@ -79,13 +79,16 @@ __3.  Inicializar Terraform.__
 
 __4. Aplicar la infraestructura.__
 
-```terraform apply  ```   #  Confirma con yes cuando se te solicite. Esto desplegará:
-                          #  3 instancias EC2 con contenedores Docker
-                          #  Un Application Load Balancer
-                          #  Grupos de seguridad y asociaciones
+```terraform apply  ``` 
+__Confirma con yes cuando se te solicite. Esto desplegará__:
+- 3 instancias EC2 con contenedores Docker
+- Un Application Load Balancer
+- Grupos de seguridad y asociaciones
+                        
 
 __5. Acceder a la aplicación__
 
 Una vez finalizado el despliegue, copia el DNS del Load Balancer desde el output:
+
 ```terraform output resumen_final```
 # Pega la URL en tu navegador y recarga la página varias veces para ver distintos tipos de queso.
