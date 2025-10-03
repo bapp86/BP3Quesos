@@ -53,33 +53,39 @@ docker_images = [
 Sigue estos pasos para desplegar la infraestructura y visualizar la aplicación web distribuida:
 
 __1. Clonar el repositorio.__
+```
 git clone https://github.com/bapp86/BP3Quesos.git
 cd BP3Quesos
-
+```
 __2. Configurar las variables.__
+
 Edita el archivo terraform.tfvars o crea uno nuevo a partir de terraform.tfvars.example:
+```
 cp terraform.tfvars.example terraform.tfvars
-
+```
 ## Ajusta los valores según el entorno:
-aws_region: Región de AWS (ej. "us-east-1")
+__aws_region__: Región de AWS (ej. "us-east-1")
 
-instance_type: Tipo de instancia EC2 (ej. "t2.micro")
+__instance_type__: Tipo de instancia EC2 (ej. "t2.micro")
 
-my_ip: Tu IP pública con /32 para acceso SSH seguro
+__my_ip__: Tu IP pública con /32 para acceso SSH seguro
 
-docker_images: Lista de imágenes Docker (una por instancia)
+__docker_images__: Lista de imágenes Docker (una por instancia)
 
 
 __3.  Inicializar Terraform.__
-terraform init   # Esto descarga los proveedores necesarios y prepara el entorno.
+
+```terraform init```   # Esto descarga los proveedores necesarios y prepara el entorno.
 
 __4. Aplicar la infraestructura.__
-terraform apply     #  Confirma con yes cuando se te solicite. Esto desplegará:
-                    #  3 instancias EC2 con contenedores Docker
-                    #  Un Application Load Balancer
-                    #  Grupos de seguridad y asociaciones
+
+```terraform apply  ```   #  Confirma con yes cuando se te solicite. Esto desplegará:
+                          #  3 instancias EC2 con contenedores Docker
+                          #  Un Application Load Balancer
+                          #  Grupos de seguridad y asociaciones
 
 __5. Acceder a la aplicación__
+
 Una vez finalizado el despliegue, copia el DNS del Load Balancer desde el output:
-terraform output resumen_final
+```terraform output resumen_final```
 # Pega la URL en tu navegador y recarga la página varias veces para ver distintos tipos de queso.
