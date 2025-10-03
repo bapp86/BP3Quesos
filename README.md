@@ -99,7 +99,7 @@ __4. Aplicar la infraestructura.__
 
 ```terraform apply ``` 
 
-_Confirma con __yes__ cuando se te solicite. Esto desplegará:
+__Confirma con ##'yes'## cuando se te solicite. Esto desplegará:__
 - 3 instancias EC2 con contenedores Docker
 - Un Application Load Balancer
 - Grupos de seguridad y asociaciones
