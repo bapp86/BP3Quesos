@@ -46,17 +46,17 @@ docker_images = [
   "errm/cheese:stilton"
 ]
 ```
-PASO A PASO
+
 
 ## Despliegue paso a paso
 
 Sigue estos pasos para desplegar la infraestructura y visualizar la aplicación web distribuida:
 
-1. Clonar el repositorio.
+__1. Clonar el repositorio.__
 git clone https://github.com/bapp86/BP3Quesos.git
 cd BP3Quesos
 
-2. Configurar las variables.
+__2. Configurar las variables.__
 Edita el archivo terraform.tfvars o crea uno nuevo a partir de terraform.tfvars.example:
 cp terraform.tfvars.example terraform.tfvars
 
@@ -70,16 +70,16 @@ my_ip: Tu IP pública con /32 para acceso SSH seguro
 docker_images: Lista de imágenes Docker (una por instancia)
 
 
-3.  Inicializar Terraform.
+__3.  Inicializar Terraform.__
 terraform init   # Esto descarga los proveedores necesarios y prepara el entorno.
 
-4. Aplicar la infraestructura.
+__4. Aplicar la infraestructura.__
 terraform apply     #  Confirma con yes cuando se te solicite. Esto desplegará:
                     #  3 instancias EC2 con contenedores Docker
                     #  Un Application Load Balancer
                     #  Grupos de seguridad y asociaciones
 
-5. Acceder a la aplicación
+__5. Acceder a la aplicación__
 Una vez finalizado el despliegue, copia el DNS del Load Balancer desde el output:
 terraform output resumen_final
 # Pega la URL en tu navegador y recarga la página varias veces para ver distintos tipos de queso.
