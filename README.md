@@ -77,7 +77,8 @@ Edita el archivo terraform.tfvars o crea uno nuevo a partir de terraform.tfvars.
 ```
 cp terraform.tfvars.example terraform.tfvars
 ```
-__2.5 Ajusta los valores según el entorno:__
+
+- __Ajusta los valores según el entorno:__
 
   - aws_region__: Región de AWS (ej. "us-east-1")
 
