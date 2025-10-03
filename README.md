@@ -40,16 +40,15 @@ El archivo `terraform.tfvars` permite ajustar la infraestructura sin modificar l
 aws_region    = "us-east-1"
 instance_type = "t2.micro"
 my_ip         = "0.0.0.0/0"
-docker_images = [
+docker_images = [ 
   "errm/cheese:wensleydale",
   "errm/cheese:cheddar",
   "errm/cheese:stilton"
 ]
-
-
+```
 PASO A PASO
 
-# Despliegue paso a paso
+## Despliegue paso a paso
 
 Sigue estos pasos para desplegar la infraestructura y visualizar la aplicación web distribuida:
 
