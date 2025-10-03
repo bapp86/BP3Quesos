@@ -63,7 +63,7 @@ Edita el archivo terraform.tfvars o crea uno nuevo a partir de terraform.tfvars.
 ```
 cp terraform.tfvars.example terraform.tfvars
 ```
-## Ajusta los valores según el entorno:
+__Ajusta los valores según el entorno:__
 __aws_region__: Región de AWS (ej. "us-east-1")
 
 __instance_type__: Tipo de instancia EC2 (ej. "t2.micro")
