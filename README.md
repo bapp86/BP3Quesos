@@ -77,7 +77,7 @@ __3.  Inicializar Terraform.__
 
 ```terraform init```  
 
-# Esto descarga los proveedores necesarios y prepara el entorno.
+__Esto descarga los proveedores necesarios y prepara el entorno.__
 
 __4. Aplicar la infraestructura.__
 
