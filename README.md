@@ -93,13 +93,13 @@ __3.  Inicializar Terraform.__
 
 ```terraform init```  
 
-__Esto descarga los proveedores necesarios y prepara el entorno.__
+Esto descarga los proveedores necesarios y prepara el entorno.
 
 __4. Aplicar la infraestructura.__
 
 ```terraform apply ``` 
 
-__Confirma con yes cuando se te solicite. Esto desplegará__:
+_Confirma con __yes__ cuando se te solicite. Esto desplegará:
 - 3 instancias EC2 con contenedores Docker
 - Un Application Load Balancer
 - Grupos de seguridad y asociaciones
