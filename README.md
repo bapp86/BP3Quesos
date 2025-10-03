@@ -47,7 +47,9 @@ docker_images = [
 ]
 
 
-**Despliegue paso a paso**
+
+
+# Despliegue paso a paso
 
 Sigue estos pasos para desplegar la infraestructura y visualizar la aplicación web distribuida:
 
