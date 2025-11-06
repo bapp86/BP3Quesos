@@ -1,38 +1,41 @@
-# BP3Quesos
-Evaluacion 1 Infraestructura como Código
+# Despliegue Profesional "The Cheese Factory" (Actividad 2.1)
 
-**App para Fábrica de Quesos**
+Este repositorio contiene el despliegue de la infraestructura para la aplicación "The Cheese Factory" en AWS, utilizando Terraform.
 
-Este proyecto despliega una aplicación web distribuida en tres instancias EC2 de AWS, cada una mostrando un tipo de queso diferente. Al acceder a la URL pública del balanceador de carga y refrescar la página, el usuario recibe una respuesta desde una instancia distinta, lo que permite visualizar diferentes quesos en cada visita.
+[cite_start]El objetivo es demostrar el uso de prácticas avanzadas de DevOps (IaC), incluyendo la gestión de estado remoto, el uso de módulos públicos verificados y la implementación de una arquitectura de red segura (VPC personalizada) que sigue el principio de mínimo privilegio[cite: 4, 9].
 
-## Objetivo
+## Arquitectura de la Infraestructura
 
-Demostrar el uso de infraestructura distribuida en AWS para servir contenido dinámico mediante contenedores Docker, gestionados con Terraform.
+La arquitectura desplegada consta de los siguientes componentes:
 
-## Arquitectura
+* [cite_start]**Red (VPC):** Se utiliza el módulo `terraform-aws-modules/vpc/aws` para crear una VPC personalizada[cite: 24]. [cite_start]Esta VPC se divide en 3 subredes públicas y 3 subredes privadas, distribuidas en tres Zonas de Disponibilidad[cite: 26].
+* [cite_start]**Balanceador de Carga (ALB):** Un Application Load Balancer público se despliega en las subredes públicas para recibir el tráfico web[cite: 27].
+* [cite_start]**Servidores de Aplicación (EC2):** Tres instancias EC2 se despliegan en las subredes privadas[cite: 27]. Estas instancias ejecutan la aplicación de quesos en contenedores Docker y no son accesibles directamente desde Internet.
+* [cite_start]**Estado Remoto (Backend):** El estado de Terraform (`.tfstate`) se almacena de forma segura en un bucket S3 privado y versionado, con bloqueo de estado gestionado por DynamoDB[cite: 29, 32].
 
-- **Proveedor**: AWS (Amazon Web Services)
-- **Orquestación**: Terraform
-- **Sistema Operativo**: Amazon Linux 2
-- **Contenedores**: Docker
-- **Instancias EC2**: 3, cada una con una imagen Docker distinta
-- **Balanceador de carga**: Application Load Balancer (ALB)
-- **Red**: VPC por defecto con subnets públicas
-- **Seguridad**:
-  - ALB permite tráfico HTTP desde cualquier origen
-  - EC2 permite tráfico HTTP desde el ALB y acceso SSH desde una IP específica
+## Características Técnicas Implementadas
 
-## Componentes principales
+Este proyecto cumple con todos los requisitos técnicos de la actividad:
 
-- `main.tf`: Define proveedor, red, seguridad, balanceador, instancias EC2 y asociaciones.
-- `terraform.tfvars`: Contiene variables como región, IP de acceso SSH, tipo de instancia y lista de imágenes Docker.
-- `terraform.tfvars.example`: Plantilla comentada para replicar y personalizar el despliegue.
-- `user_data.sh`: Script de inicialización que instala Docker y lanza el contenedor correspondiente.
-- `variables.tf`: Define las variables utilizadas en el proyecto.
-- `outputs.tf`: Expone la URL pública del ALB y las IPs de las instancias EC2.
-- `README.md`: Este documento.
+* [cite_start]**Gestión de Código:** El proyecto está gestionado en Git e incluye un archivo `terraform.tfvars.example`[cite: 22].
+* [cite_start]**Estado Remoto:** El backend S3 se crea como infraestructura separada en un directorio `s3-backend-bootstrap`, cumpliendo con el requisito de desacoplamiento[cite: 31].
+* **Modularidad (Módulos Públicos):**
+    * [cite_start]`terraform-aws-modules/vpc/aws` para la red[cite: 24].
+    * [cite_start]`terraform-aws-modules/s3-bucket/aws` para el bucket del backend[cite: 29].
+* **Seguridad (Mínimo Privilegio):**
+    * [cite_start]**ALB Security Group:** Permite HTTP (80) desde Internet (`0.0.0.0/0`)[cite: 34].
+    * [cite_start]**EC2 Security Group:** Permite HTTP (80) **únicamente** desde el Security Group del ALB [cite: 36] [cite_start]y SSH (22) **únicamente** desde la IP local (definida en `terraform.tfvars`)[cite: 37].
+* **Lógica Condicional:**
+    * [cite_start]El tipo de instancia EC2 cambia según la variable `environment`[cite: 39].
+    * [cite_start]`environment = "prod"` despliega `t3.small`[cite: 20].
+    * [cite_start]`environment = "dev"` despliega `t2.micro`[cite: 21].
 
-## Entorno de desarrollo
+## Estructura del Repositorio
+
+El repositorio está dividido en dos proyectos independientes:
+├── 1-s3-backend-bootstrap/ # Proyecto para crear el bucket S3 y la tabla DynamoDB 
+└── 2-BP3Quesos/ # Proyecto principal de la infraestructura (VPC, ALB, EC2)
+
 
 Este proyecto fue desarrollado y probado localmente en:
 

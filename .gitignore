@@ -1,0 +1,13 @@
+# Archivos de estado de Terraform
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+
+# Archivos de variables locales (Contiene secretos)
+terraform.tfvars
+
+# Directorio de módulos y plugins de Terraform
+.terraform/
+
+# Archivos del sistema operativo
+.DS_Store

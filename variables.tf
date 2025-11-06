@@ -21,3 +21,9 @@ variable "docker_images" {
   description = "Una lista de imágenes de Docker para desplegar en cada instancia. Cada entrada crea una instancia."
   type        = list(string)
 }
+
+variable "environment" {
+  description = "Entorno de despliegue (ej: 'dev' o 'prod')."
+  type        = string
+  default     = "dev"
+}

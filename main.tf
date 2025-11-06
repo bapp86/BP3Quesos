@@ -2,27 +2,54 @@
 # Configuro el proveedor AWS
 # Defino los recursos de red, balanceador, instancias EC2 y asociaciones.
 
-
+# Test 
 provider "aws" {
   # Especifico la región de AWS a usar (controlada por terraform.tfvars)
   region = var.aws_region
 }
 
 # ** FUENTES DE DATOS DE LA CUENTA DE AWS **
-# Obtengo la VPC por defecto así despliego recursos dentro de este
-data "aws_vpc" "default" {
-  default = true
+
+data "aws_availability_zones" "available" {
+  state = "available"
 }
 
-# Obtengo las subnets públicas de la VPC por defecto
-data "aws_subnets" "public" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
-  filter {
-    name   = "map-public-ip-on-launch"
-    values = ["true"]
+# SE AÑADE EL MÓDULO VPC REQUERIDO 
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
+  # Asegúrese de tener una versión estable, ej: version = "~> 5.0"
+  
+  name = "cheese-vpc"
+  cidr = "10.0.0.0/16"
+
+  # Configurar 3 AZs
+  azs = slice(data.aws_availability_zones.available.names, 0, 3)
+  
+private_inbound_acl_rules = [
+    {
+      rule_number = 101
+      rule_action = "allow"
+      protocol    = "tcp"
+      from_port   = 1024
+      to_port     = 65535
+      cidr_block  = "0.0.0.0/0"
+    }
+  ]
+
+  # Configurar 3 subredes privadas y 3 públicas
+  private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+
+  # Se requiere NAT Gateway para que las instancias en subredes privadas accedan a Internet (para yum/docker)
+  enable_nat_gateway = true
+  single_nat_gateway = true # Ahorra costos para 'dev'
+  
+  # Habilitar DNS para el ALB
+  enable_dns_hostnames = true
+
+  tags = {
+    Project     = "The-Cheese-Factory"
+    Environment = var.environment
   }
 }
 
@@ -41,7 +68,7 @@ data "aws_ami" "amazon_linux_2" {
 resource "aws_security_group" "alb_sg" {
   name        = "alb-security-group"
   description = "Permite el trafico HTTP desde internet"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     description = "Permitir HTTP desde cualquier lugar"
@@ -67,7 +94,7 @@ resource "aws_security_group" "alb_sg" {
 resource "aws_security_group" "web_sg" {
   name        = "web-server-security-group"
   description = "Permite SSH y HTTP desde el ALB"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     description     = "Permitir HTTP desde el ALB"
@@ -104,7 +131,7 @@ resource "aws_lb" "main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = slice(data.aws_subnets.public.ids, 0, 3)
+  subnets            = module.vpc.public_subnets
   tags = {
     Name = "Cheese-ALB"
   }
@@ -115,7 +142,7 @@ resource "aws_lb_target_group" "main" {
   name     = "cheese-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = data.aws_vpc.default.id
+  vpc_id   = module.vpc.vpc_id
 
   health_check {
     path                = "/"
@@ -144,10 +171,10 @@ resource "aws_lb_listener" "http" {
 resource "aws_instance" "web_server" {
   count = length(var.docker_images)
   ami                         = data.aws_ami.amazon_linux_2.id
-  instance_type               = var.instance_type
-  subnet_id                   = element(data.aws_subnets.public.ids, count.index)
+  instance_type               = var.environment == "prod" ? "t3.small" : "t2.micro"
+  subnet_id                   = element(module.vpc.private_subnets, count.index)
   vpc_security_group_ids      = [aws_security_group.web_sg.id]
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   # user_data templated para lanzar el contenedor Docker indicado por cada elemento de docker_images
   user_data = templatefile("${path.module}/user_data.sh", {

@@ -21,3 +21,5 @@ docker_images = [
   "errm/cheese:cheddar",
   "errm/cheese:stilton"
 ]
+
+environment = "dev"
