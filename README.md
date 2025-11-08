@@ -32,9 +32,8 @@ Este proyecto cumple con todos los requisitos técnicos de la actividad:
 
 ## Estructura del Repositorio
 
-El repositorio está dividido en dos proyectos independientes:
+El repositorio está dividido en dos proyectos independientes:<br />
 ├── 1-s3-backend-bootstrap/ # Proyecto para crear el bucket S3 y la tabla DynamoDB <br />
-|<br />
 └── 2-BP3Quesos/ # Proyecto principal de la infraestructura (VPC, ALB, EC2)
 
 
